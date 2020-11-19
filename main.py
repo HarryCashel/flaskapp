@@ -1,12 +1,14 @@
 from flask import Flask, jsonify, request
 import os
 from dotenv import load_dotenv
+from books import books
 import psycopg2
-from database import cursor, connection
 
 load_dotenv()
 app = Flask(__name__)
 
+
+app.register_blueprint(books)
 
 # basic get
 # @app.route("/home", methods=["GET"])
@@ -44,5 +46,3 @@ app = Flask(__name__)
 # @app.route("/books/<int:id>")
 # def book_page(id):
 #     return f"You are looking for book {id}"
-
-

@@ -3,7 +3,7 @@ from flask import Blueprint, request, jsonify, abort
 books = Blueprint("books", __name__)
 
 
-@app.route("/books", methods=["GET"])
+@books.route("/books", methods=["GET"])
 def book_index():
     # Return all books
     sql = "SELECT * FROM books"
@@ -12,7 +12,7 @@ def book_index():
     return jsonify(books)
 
 
-@app.route("/books", methods=["POST"])
+@books.route("/books", methods=["POST"])
 def book_create():
     # Create a new book
     sql = "INSERT INTO books (title) VALUES (%s);"
@@ -25,7 +25,7 @@ def book_create():
     return jsonify(book)
 
 
-@app.route("/books/<int:id>", methods=["GET"])
+@books.route("/books/<int:id>", methods=["GET"])
 def book_show(id):
     # Return a single book
     sql = "SELECT * FROM books WHERE id = %s;"
@@ -34,7 +34,7 @@ def book_show(id):
     return jsonify(book)
 
 
-@app.route("/books/<int:id>", methods=["PUT", "PATCH"])
+@books.route("/books/<int:id>", methods=["PUT", "PATCH"])
 def book_update(id):
     # Update a book
     sql = "UPDATE books SET title = %s WHERE id = %s;"
@@ -47,7 +47,7 @@ def book_update(id):
     return jsonify(book)
 
 
-@app.route("/books/<int:id>", methods=["DELETE"])
+@books.route("/books/<int:id>", methods=["DELETE"])
 def book_delete(id):
     # Delete a book
     sql = "SELECT * FROM books WHERE id = %s;"
