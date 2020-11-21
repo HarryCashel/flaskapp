@@ -1,9 +1,20 @@
+# Loading environment
 from dotenv import load_dotenv
 load_dotenv()
 
+# Flask application object creation
 from flask import Flask
 app = Flask(__name__)
 
+# Database connection via SQLAlchemy
+from database import init_db
+db = init_db(app)
+
+# Setup Serialization and Deserialization
+from flask_marshmallow import Marshmallow
+ma = Marshmallow(app)
+
+# Controller Registration
 from controllers import registerable_controllers
 
 for controller in registerable_controllers:
