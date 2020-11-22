@@ -1,7 +1,7 @@
 from models.Book import Book
 from main import db
 from schemas.BookSchema import book_schema, books_schema
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, abort
 
 books = Blueprint('books', __name__, url_prefix="/books")
 
@@ -49,5 +49,11 @@ def book_update(id):
 def book_delete(id):
     # Delete a book
     book = Book.query.get(id)
+
+    if not book:
+        return abort(404)
+
     db.session.delete(book)
     db.session.commit()
+
+    return jsonify(book_schema.dump(book))
