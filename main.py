@@ -5,6 +5,7 @@ load_dotenv()
 # Flask application object creation
 from flask import Flask
 app = Flask(__name__)
+app.config.from_object("settings")
 
 # Database connection via SQLAlchemy
 from database import init_db
