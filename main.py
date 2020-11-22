@@ -5,36 +5,39 @@ from marshmallow.exceptions import ValidationError
 from dotenv import load_dotenv
 load_dotenv()
 
-# Flask application object creation
-from flask import Flask
-app = Flask(__name__)
-app.config.from_object("settings.app_config")
-
-# Database connection via SQLAlchemy
-from database import init_db
-db = init_db(app)
-
-# Setup Serialization and Deserialization
+from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
-ma = Marshmallow(app)
 
-# CLI registration
-from commands import db_commands
-app.register_blueprint(db_commands)
-
-# Controller Registration
-from controllers import registerable_controllers
-
-for controller in registerable_controllers:
-    app.register_blueprint(controller)
+db = SQLAlchemy()
+ma = Marshmallow()
 
 
-# Error handler for
-@app.errorhandler(ValidationError)
-def handle_bad_request(error):
-    return (jsonify(error.messages), 400)
+def create_app():
+    # Flask application object creation
+    app = Flask(__name__)
+    app.config.from_object("settings.app_config")
 
+    # Setup Serialization and Deserialization
+    # Database connection via SQLAlchemy
+    db.init_app(app)
+    ma.init_app(app)
 
+    # CLI registration
+    from commands import db_commands
+    app.register_blueprint(db_commands)
+
+    # Controller Registration
+    from controllers import registerable_controllers
+
+    for controller in registerable_controllers:
+        app.register_blueprint(controller)
+
+    # Error handler for
+    @app.errorhandler(ValidationError)
+    def handle_bad_request(error):
+        return jsonify(error.messages), 400
+
+    return app
 
 # basic get
 # @app.route("/home", methods=["GET"])
