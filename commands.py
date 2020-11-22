@@ -16,6 +16,7 @@ def drop_db():
     db.drop_all()
     print("Tables deleted!")
 
+
 @db_commands.cli.command("seed")
 def seed_db():
     from models.Book import Book

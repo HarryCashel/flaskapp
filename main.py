@@ -19,6 +19,7 @@ def create_app():
 
     # Setup Serialization and Deserialization
     # Database connection via SQLAlchemy
+    # Register database and marshmallow with our app
     db.init_app(app)
     ma.init_app(app)
 
