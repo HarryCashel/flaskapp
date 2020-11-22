@@ -1,3 +1,5 @@
+from flask import Flask
+
 # Loading environment
 from dotenv import load_dotenv
 load_dotenv()
@@ -14,6 +16,10 @@ db = init_db(app)
 # Setup Serialization and Deserialization
 from flask_marshmallow import Marshmallow
 ma = Marshmallow(app)
+
+# CLI registration
+from commands import db_commands
+app.register_blueprint(db_commands)
 
 # Controller Registration
 from controllers import registerable_controllers
