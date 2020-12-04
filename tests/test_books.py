@@ -11,6 +11,9 @@ class TestBooks(unittest.TestCase):
         cls.client = cls.app.test_client()
         db.create_all()
 
+        runner = cls.app.test_cli_runner()
+        runner.invoke(args=["db", "seed"])
+
     @classmethod
     def tearDown(cls):
         db.session.remove()

@@ -35,3 +35,4 @@ elif environment == "testing":
     app_config = TestingConfig()
 else:
     app_config = DevelopmentConfig()
+
